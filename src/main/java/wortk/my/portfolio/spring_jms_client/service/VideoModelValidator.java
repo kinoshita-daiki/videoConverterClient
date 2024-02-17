@@ -12,20 +12,22 @@ import org.springframework.util.unit.DataUnit;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import lombok.extern.log4j.Log4j2;
 import net.bramp.ffmpeg.FFprobe;
 import net.bramp.ffmpeg.probe.FFmpegProbeResult;
 import wortk.my.portfolio.spring_jms_client.model.VideoModel;
 
+@Log4j2
 public class VideoModelValidator implements ConstraintValidator<ProperVideoModel, VideoModel> {
 
 	@Value("${upload.file.directory}")
-	private String videoDirectory;
+	String videoDirectory;
 
 	@Value("${path.to.ff.probe}")
-	private String ffprobePath;
+	String ffprobePath;
 
 	@Value("${accept.file.size.mega}")
-	private String acceptFileSize;
+	String acceptFileSize;
 
 	@Override
 	public boolean isValid(VideoModel model, ConstraintValidatorContext context) {
@@ -46,7 +48,7 @@ public class VideoModelValidator implements ConstraintValidator<ProperVideoModel
 			valid = isProperClipping(model, duration);
 			Files.deleteIfExists(tempPath);
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error("create or delete file error", e);
 			return false;
 		}
 		return valid;

@@ -35,18 +35,6 @@ class VideoEncodeServiceImpl implements VideoEncodeService {
 	public void convertVideo(VideoModel model) throws IOException {
 		String fileName = UUID.randomUUID().toString() + ".mp4";
 		String filePath = videoDirectory + fileName;
-//		File outputPath = new File("./test.mp4");
-//		outputPath.exists();// ファイル名重複
-//		int aa = FileUtils.getTempDirectory().list().length;// ファイル数
-//		FileUtils.sizeOfDirectory(FileUtils.getTempDirectory());// ディレクトリのサイズ
-		// ファイルのサイズ
-		// 開始時間が終了時間を超えているか(指定した時間)
-		// 終了時間が開始時間を超えているか(略)
-		// 開始時間が動画の本来の長さに存在しない値を指定しているか
-		// 終了時間が(略)
-		// 一応拡張子チェック
-		// ファイル削除時に例外が起こった場合、メンテナンスと称して23~25時ぐらいはアップできないようにし、24時にディレクトリクリア。
-		// 変換サーバ側も同様。例外検知用キューを作り、例外が起こったらそちらにメッセージ送信。クライアント側はそれを検知し、メンテナンス。今回はサーバ側もクリア。
 		uploadVideo(filePath, model.getVideo().getInputStream());
 		repository.sendMessage(fileName, model);
 	}

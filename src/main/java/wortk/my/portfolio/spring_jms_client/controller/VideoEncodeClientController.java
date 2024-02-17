@@ -21,11 +21,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 
+import lombok.extern.log4j.Log4j2;
 import wortk.my.portfolio.spring_jms_client.model.DownloadViewMetaData;
 import wortk.my.portfolio.spring_jms_client.model.VideoModel;
 import wortk.my.portfolio.spring_jms_client.service.ProperVideoModel;
 import wortk.my.portfolio.spring_jms_client.service.VideoEncodeService;
 
+@Log4j2
 @Controller
 public class VideoEncodeClientController {
 
@@ -70,7 +72,7 @@ public class VideoEncodeClientController {
 					.header("Content-Type", "video/mp4")//
 					.body(Files.readAllBytes(uploadedFile.toPath()));
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error("read uploadfile error", e);
 		}
 		return ResponseEntity.notFound().build();
 	}
@@ -86,7 +88,6 @@ public class VideoEncodeClientController {
 
 	@GetMapping("/videoDownloadView")
 	public String getVideoDownloadView(@RequestParam String fileName, Model model) {
-		// PathVariableではリソースの参照がずれ、css等がうまく読み込めなくなる。リクエストパラメータを使う
 		DownloadViewMetaData downloadViewMeataModel = service.getDownloadMetaData(fileName);
 		String outputFileName = downloadViewMeataModel.fileName();
 		if (downloadViewMeataModel.isExpired()) {
