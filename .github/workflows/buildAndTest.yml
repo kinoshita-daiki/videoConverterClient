@@ -14,6 +14,10 @@ on:
   pull_request:
     branches: [ "master" ]
 
+permissions:
+    contents: read
+    checks: write
+    id-token: write
 jobs:
   jobId1:
     runs-on: ubuntu-latest
@@ -32,3 +36,8 @@ jobs:
       run: ./mvnw -B compile
     - name: Test
       run: ./mvnw -B test
+    - name: Publish Test Report
+      uses: mikepenz/action-junit-report@v4.1.0
+      if: always()
+      with:
+        report_paths: 'target/surefire-reports/TEST-*.xml'
