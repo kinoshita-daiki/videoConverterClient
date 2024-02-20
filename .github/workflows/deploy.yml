@@ -23,5 +23,4 @@ jobs:
             sleep 10;mvn -B clean
             ./mvnw -B package
             nohup java -jar target/${{ secrets.JAR_FILE_NAME }} &
-            echo "deploy complete"
             exit
