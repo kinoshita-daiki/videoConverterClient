@@ -1,10 +1,10 @@
-name: Deploy To Server
+name: Deploy
 
 on:
   workflow_dispatch:
 
 jobs:
-  job1:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: ssh and deploy
@@ -19,7 +19,7 @@ jobs:
             chmod +x mvnw
             git switch ${{ secrets.PRODUCTION_BRANCH }}
             git pull
-            kill $(ps -ef | grep '[j]ava -jar ${{ secrets.JAR_FILE_NAME }}' | awk '{print $2}')
+            kill $(lsof -ti:${{ secrets.APPLICATION_PORT }})
             sleep 10;mvn -B clean
             ./mvnw -B package
             (nohup java -jar target/${{ secrets.JAR_FILE_NAME }} > /dev/null 2>&1 &)
