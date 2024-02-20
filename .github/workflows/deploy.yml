@@ -1,4 +1,4 @@
-name: Deploy Server
+name: Deploy To Server
 
 on:
   workflow_dispatch:
@@ -24,3 +24,4 @@ jobs:
             ./mvnw -B package
             nohup java -jar target/${{ secrets.JAR_FILE_NAME }} &
             echo "deploy complete"
+            exit
