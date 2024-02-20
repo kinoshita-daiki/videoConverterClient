@@ -20,6 +20,6 @@ jobs:
             git switch ${{ secrets.PRODUCTION_BRANCH }}
             git pull
             kill $(ps -ef | grep '[j]ava -jar ${{ secrets.JAR_FILE_NAME }}' | awk '{print $2}')
-            mvn -B clean
+            sleep 10;mvn -B clean
             ./mvnw -B package
-            nohup java -jar target/${{ secrets.JAR_FILE_NAME }} &
+            nohup java -jar target/${{ secrets.JAR_FILE_NAME }} & echo "deploy complete"
