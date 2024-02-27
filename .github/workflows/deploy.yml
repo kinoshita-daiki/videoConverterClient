@@ -10,10 +10,10 @@ jobs:
       - name: ssh and deploy
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SSH_HOST }} # ホスト名
-          username: ${{ secrets.SSH_USERNAME }} # SSH ユーザ名
-          key: ${{ secrets.SSH_PRIVATE_KEY }} # 秘密鍵の内容
-          port: ${{ secrets.SSH_PORT }} # ポート番号
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
           script: |
             cd ${{ secrets.PROJECT_DIRECTORY }}
             chmod +x mvnw
@@ -22,4 +22,4 @@ jobs:
             kill $(lsof -ti:${{ secrets.APPLICATION_PORT }})
             sleep 10;mvn -B clean
             ./mvnw -B package
-            (nohup java -Dspring.profiles.active=prod -jar target/*.jar &)
+            (nohup java -Dspring.profiles.active=prod -jar target/*.jar > /dev/null 2>&1 &)
