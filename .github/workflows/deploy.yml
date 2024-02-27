@@ -22,4 +22,4 @@ jobs:
             kill $(lsof -ti:${{ secrets.APPLICATION_PORT }})
             sleep 10;mvn -B clean
             ./mvnw -B package
-            (nohup java -Dspring.profiles.active=prod -jar target/${{ secrets.JAR_FILE_NAME }} > /dev/null 2>&1 &)
+            (nohup java -Dspring.profiles.active=prod -jar target/*.jar > /dev/null 2>&1 &)
