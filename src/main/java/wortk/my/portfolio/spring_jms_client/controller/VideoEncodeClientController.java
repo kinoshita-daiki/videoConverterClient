@@ -3,6 +3,7 @@ package wortk.my.portfolio.spring_jms_client.controller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,10 +36,14 @@ public class VideoEncodeClientController {
 
 	private final String videoDirectory;
 
+	private final Optional<String> path;
+
 	VideoEncodeClientController(@Autowired VideoEncodeService service,
-			@Value("${upload.file.directory}") String videoDirectory) {
+			@Value("${upload.file.directory}") String videoDirectory,
+			@Value("${my.client.path:#{null}}") Optional<String> path) {
 		this.service = service;
 		this.videoDirectory = videoDirectory;
+		this.path = path;
 	}
 
 	@PostMapping("/videoEncoderOutput")
@@ -51,7 +56,9 @@ public class VideoEncodeClientController {
 
 	@GetMapping("/videoEncoderOutput")
 	public String displayOutputViewForGet() {
-		return "redirect:/videoEncoderInput";
+		String redirect = path.map(p -> "redirect:/" + p)//
+				.orElseGet(() -> "redirect:/");
+		return redirect + "videoEncoderInput";
 	}
 
 	@GetMapping("/videoEncoderInput")
