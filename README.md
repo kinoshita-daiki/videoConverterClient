@@ -1,6 +1,6 @@
-[![Deploy Status](https://github.com/kinoshita-daiki/videoConverterClient/actions/workflows/deploy.yml/badge.svg)](https://github.com/kinoshita-daiki/videoConverterClient/actions?query=workflow%3ADeploy)
-
 [![CI Status](https://github.com/kinoshita-daiki/videoConverterClient/actions/workflows/buildAndTest.yml/badge.svg)](https://github.com/kinoshita-daiki/videoConverterClient/actions?query=workflow%3AMyPipeline)
+
+[![Deploy Status](https://github.com/kinoshita-daiki/videoConverterClient/actions/workflows/deploy.yml/badge.svg)](https://github.com/kinoshita-daiki/videoConverterClient/actions?query=workflow%3ADeploy)
 
 [API Doc](https://kinoshita-daiki.github.io/videoConverterClient/)
 
