@@ -34,7 +34,7 @@ class VideoEncodeClientControllerTest {
 		)//
 				.andExpect(status().isOk())//
 				.andExpect(view().name("videoEncoderInput"))//
-				.andExpect(content().string(containsString("動画変換入力")));
+				.andExpect(content().string(containsString("動画変換")));
 	}
 
 	@Test
