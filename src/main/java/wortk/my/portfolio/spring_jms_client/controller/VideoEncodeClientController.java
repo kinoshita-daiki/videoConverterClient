@@ -28,6 +28,12 @@ import wortk.my.portfolio.spring_jms_client.model.VideoModel;
 import wortk.my.portfolio.spring_jms_client.service.ProperVideoModel;
 import wortk.my.portfolio.spring_jms_client.service.VideoEncodeService;
 
+/**
+ * 動画変換コントローラ(クライアント側)
+ * 
+ * @author kinoshita daiki
+ * @since 2024/03/02
+ */
 @Log4j2
 @Controller
 public class VideoEncodeClientController {
@@ -46,6 +52,14 @@ public class VideoEncodeClientController {
 		this.path = path;
 	}
 
+	/**
+	 * リクエスト受付後の画面を表示する
+	 * 
+	 * @param videoModel ビデオモデル
+	 * @param model      モデル
+	 * @return 画面
+	 * @throws IOException 変換処理失敗時
+	 */
 	@PostMapping("/videoEncoderOutput")
 	public String displayOutputView(@Validated @ProperVideoModel VideoModel videoModel, Model model)
 			throws IOException {
@@ -54,6 +68,11 @@ public class VideoEncodeClientController {
 		return "videoEncoderOutput";
 	}
 
+	/**
+	 * 入力画面をリダイレクトで表示する
+	 * 
+	 * @return 入力画面
+	 */
 	@GetMapping("/videoEncoderOutput")
 	public String displayOutputViewForGet() {
 		String redirect = path.map(p -> "redirect:/" + p)//
@@ -61,12 +80,23 @@ public class VideoEncodeClientController {
 		return redirect + "videoEncoderInput";
 	}
 
+	/**
+	 * 入力画面を表示する
+	 * 
+	 * @return 入力画面
+	 */
 	@GetMapping("/videoEncoderInput")
 	public String displayInputView(Model model) {
 		model.addAttribute(new VideoModel());
 		return "videoEncoderInput";
 	}
 
+	/**
+	 * アップロードされたファイルを取得する
+	 * 
+	 * @param videoName 動画名
+	 * @return アップロードされたファイルを含むレスポンス
+	 */
 	@ResponseBody
 	@GetMapping("/uploadFile/{videoName}")
 	public ResponseEntity<byte[]> getUploadFile(@PathVariable String videoName) {
@@ -84,6 +114,12 @@ public class VideoEncodeClientController {
 		return ResponseEntity.notFound().build();
 	}
 
+	/**
+	 * アップロードされた動画を削除する
+	 * 
+	 * @param videoName 動画名
+	 * @throws IOException 削除失敗時
+	 */
 	@ResponseBody
 	@DeleteMapping("/uploadFile/{videoName}")
 	public void delete(@PathVariable String videoName) throws IOException {
@@ -93,6 +129,13 @@ public class VideoEncodeClientController {
 		service.deleteVideo(videoName);
 	}
 
+	/**
+	 * 動画ダウンロード画面を表示する
+	 * 
+	 * @param fileName ファイル名
+	 * @param model    モデル
+	 * @return 動画ダウンロード画面
+	 */
 	@GetMapping("/videoDownloadView")
 	public String getVideoDownloadView(@RequestParam String fileName, Model model) {
 		DownloadViewMetaData downloadViewMeataModel = service.getDownloadMetaData(fileName);
@@ -105,12 +148,24 @@ public class VideoEncodeClientController {
 		return downloadViewMeataModel.viewName();
 	}
 
+	/**
+	 * 動画をダウンロードする
+	 * 
+	 * @param fileName ファイル名
+	 * @return 動画
+	 */
 	@ResponseBody
 	@GetMapping("/videoDownload")
 	public ResponseEntity<Resource> downloadVideo(@RequestParam String fileName) {
 		return service.downloadVideo(fileName);
 	}
 
+	/**
+	 * アップロード時のバリデーション用のエラーページを表示する
+	 * 
+	 * @param model モデル
+	 * @return エラーページ
+	 */
 	@ExceptionHandler(HandlerMethodValidationException.class)
 	public String displayValidationErrorPage(Model model) {
 		model.addAttribute(new VideoModel());
@@ -118,6 +173,10 @@ public class VideoEncodeClientController {
 		return "videoEncoderInput";
 	}
 
+	/**
+	 * 
+	 * @return 汎用エラーページ
+	 */
 	@ExceptionHandler(Exception.class)
 	public String displayCommonErrorPage() {
 		return "commonErrorPage";

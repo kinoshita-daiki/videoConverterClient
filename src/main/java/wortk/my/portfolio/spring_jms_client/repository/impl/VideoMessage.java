@@ -2,6 +2,12 @@ package wortk.my.portfolio.spring_jms_client.repository.impl;
 
 import wortk.my.portfolio.spring_jms_client.model.VideoModel;
 
+/**
+ * メッセージング用データモデル
+ * 
+ * @author kinoshita daiki
+ * @since 2024/03/02
+ */
 record VideoMessage(
 		String originalFilename,
 		String fileName,

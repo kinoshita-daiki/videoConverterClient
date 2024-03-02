@@ -17,6 +17,12 @@ import net.bramp.ffmpeg.FFprobe;
 import net.bramp.ffmpeg.probe.FFmpegProbeResult;
 import wortk.my.portfolio.spring_jms_client.model.VideoModel;
 
+/**
+ * 変換動画バリデーション
+ * 
+ * @author kinoshita daiki
+ * @since 2024/03/02
+ */
 @Log4j2
 public class VideoModelValidator implements ConstraintValidator<ProperVideoModel, VideoModel> {
 

@@ -6,6 +6,12 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
 import lombok.Data;
 
+/**
+ * ビデオモデル
+ * 
+ * @author kinoshita daiki
+ * @since 2024/03/02
+ */
 @Data
 public class VideoModel {
 
