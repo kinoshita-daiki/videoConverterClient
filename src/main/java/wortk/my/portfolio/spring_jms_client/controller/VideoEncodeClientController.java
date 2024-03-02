@@ -3,11 +3,15 @@ package wortk.my.portfolio.spring_jms_client.controller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.PathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -158,6 +162,30 @@ public class VideoEncodeClientController {
 	@GetMapping("/videoDownload")
 	public ResponseEntity<Resource> downloadVideo(@RequestParam String fileName) {
 		return service.downloadVideo(fileName);
+	}
+
+	@ResponseBody
+	@GetMapping("/videoEncoderInput/test")
+	public ResponseEntity<Resource> downloadTestVideo() {
+		File testVideoFile = new File("src/main/resources/video/test.mp4");
+		if (!testVideoFile.exists()) {
+			return ResponseEntity.notFound().build();
+		}
+		Path testFilePath = testVideoFile.toPath();
+		Resource resource = new PathResource(testFilePath);
+		log.info("resources near");
+		return ResponseEntity.ok()
+				.contentType(getContentType(testFilePath))
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment")
+				.body(resource);
+	}
+
+	private MediaType getContentType(Path path) {
+		try {
+			return MediaType.parseMediaType(Files.probeContentType(path));
+		} catch (IOException e) {
+			return MediaType.APPLICATION_OCTET_STREAM;
+		}
 	}
 
 	/**
