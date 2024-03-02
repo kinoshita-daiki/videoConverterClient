@@ -2,6 +2,8 @@
 
 [![CI Status](https://github.com/kinoshita-daiki/videoConverterClient/actions/workflows/buildAndTest.yml/badge.svg)](https://github.com/kinoshita-daiki/videoConverterClient/actions?query=workflow%3AMyPipeline)
 
+[API Doc](https://kinoshita-daiki.github.io/videoConverterClient/)
+
 ポートフォリオとして作成した、動画変換サイトのクライアントサーバ側のリポジトリです。<br>
 バックエンドサーバ側は[こちらです](https://github.com/kinoshita-daiki/videoConverter)
 
